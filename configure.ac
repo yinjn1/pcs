@@ -235,7 +235,7 @@ for i in $DISTRO $DISTROS; do
 			DISTROEXT=debian
 			break
 		;;
-		fedora*|rhel|centos|centos-stream*|opensuse*)
+		fedora*|rhel|centos|centos-stream*|opensuse*|NFSServer)
 			FOUND_DISTRO=1
 			CONFIGDIR="$sysconfdir/sysconfig"
 			PCSLIBDIR="$LIBDIR"
@@ -378,7 +378,7 @@ if test "x$local_build" = "xyes"; then
 		fi
 		cp "$PCS_CUSTOM_GEMFILE" Gemfile
 	else
-		echo "source 'https://rubygems.org'" > Gemfile
+		echo "source 'https://mirrors.tuna.tsinghua.edu.cn/rubygems'" > Gemfile
 		echo "" >> Gemfile
 	fi
 fi

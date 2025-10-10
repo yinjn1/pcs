@@ -77,9 +77,12 @@ if PIP_HAS_ISOLATION
 pipopts	= --no-build-isolation
 endif
 
+# PyPI mirror for faster downloads in China
+PYPI_INDEX = https://mirrors.tuna.tsinghua.edu.cn/pypi/web/simple
+
 stamps/download_python_deps: rpm/requirements.txt stamps/download_pyagentx dev_requirements.txt
 if ENABLE_DOWNLOAD
-	PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring $(PIP) download --disable-pip-version-check --no-deps $(pipopts) --dest rpm/ --no-binary :all: -r rpm/requirements.txt
+	PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring $(PIP) download --disable-pip-version-check --no-deps $(pipopts) --dest rpm/ --no-binary :all: -r rpm/requirements.txt -i $(PYPI_INDEX)
 endif
 	touch $@
 

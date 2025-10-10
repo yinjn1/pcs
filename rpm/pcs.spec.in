@@ -83,8 +83,13 @@ BuildRequires: python3-pyparsing
 BuildRequires: python3-wheel
 BuildRequires: python3-lxml
 BuildRequires: python3-pycurl
+BuildRequires: python3-pip
 
+# git for patches
+BuildRequires: git-core
 # for building pcs tarballs
+BuildRequires: autoconf
+BuildRequires: automake
 BuildRequires: make
 # printf from coreutils is used in makefile, head is used in spec
 BuildRequires: coreutils
@@ -98,6 +103,7 @@ BuildRequires: libffi-devel
 BuildRequires: ruby >= 2.5
 BuildRequires: ruby-devel
 BuildRequires: rubygems
+BuildRequires: rubygem-bundler
 # cluster stack packages for pkg-config
 BuildRequires: booth
 # Buildroot only since RHEL 9
@@ -124,6 +130,8 @@ BuildRequires: mozilla-nss-tools
 BuildRequires: nss-tools
 %endif
 BuildRequires: pkgconf
+# for touching patch files (sanitization function)
+BuildRequires: diffstat
 
 Requires: python3-cryptography
 Requires: python3-lxml
@@ -200,7 +208,10 @@ rubyver=`pkg-config --variable=ruby_version $rubymod`
 %build
 %define debug_package %{nil}
 ./autogen.sh
-%{configure} --enable-local-build --enable-use-local-cache-only
+%{configure} --enable-local-build --enable-use-local-cache-only \
+  --enable-individual-bundling \
+  --with-pcsd-default-cipherlist='PROFILE=SYSTEM' \
+  --with-pcs-lib-dir="%{_libdir}" PYTHON=%{__python3}
 make all
 
 %install
@@ -215,8 +226,10 @@ rm -rf %{buildroot}/usr/share/doc/pcs/
 for fname in `find %{buildroot} -type f -name "*.so"`; do
   strip ${fname}
 done
-for dname in `find %{buildroot} -type d -name "ext"`; do
-  rm -rf ${dname}
+for dname in `find %{buildroot}%{_libdir}/pcsd/vendor/bundle/gems -type d -name "ext"`; do
+  if find ${dname} -type f -name "*.so" 2>/dev/null | grep -q .; then
+    rm -rf ${dname}
+  fi
 done
 
 # prepare dynamic file list
