@@ -16,6 +16,7 @@ rpm_build:
   extends: .parallel
   stage: stage1
   script:
+    - dnf -y install autoconf automake python3-pip python3-wheel python3-cryptography python3-lxml python3-pycurl python3-pyparsing ruby-devel rubygem-bundler nss-tools wget
     - ./autogen.sh
     - ./configure --enable-local-build
     - make CI_BRANCH=${BASE_IMAGE_NAME} rpm/pcs.spec
