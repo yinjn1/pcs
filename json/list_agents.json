@@ -1,0 +1,29 @@
+{
+    "status": "success",
+    "status_msg": null,
+    "report_list": [],
+    "data": [
+        {
+            "shortdesc": null,
+            "longdesc": null,
+            "parameters": [],
+            "actions": [],
+            "name": "alert:alert_sms",
+            "standard": "alert",
+            "provider": null,
+            "type": "alert_sms",
+            "default_actions": []
+        },
+        {
+            "shortdesc": null,
+            "longdesc": null,
+            "parameters": [],
+            "actions": [],
+            "name": "alert:alert_smtp",
+            "standard": "alert",
+            "provider": null,
+            "type": "alert_smtp",
+            "default_actions": []
+        }
+    ]
+}

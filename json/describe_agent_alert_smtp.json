@@ -1,0 +1,119 @@
+{
+    "status": "success",
+    "status_msg": null,
+    "report_list": [],
+    "data": {
+        "shortdesc": "Alert agent for SMTP",
+        "longdesc": "alert_smtp is an alert agent which can be used to send email notifications via SMTP. This agent calls support software to send email messages.",
+        "parameters": [
+            {
+                "name": "smtp_server_host",
+                "shortdesc": "IP address or hostname of SMTP server",
+                "longdesc": null,
+                "type": "string",
+                "default": null,
+                "enum_values": null,
+                "required": true,
+                "advanced": false,
+                "deprecated": false,
+                "deprecated_by": [],
+                "deprecated_desc": null,
+                "unique_group": null,
+                "reloadable": false
+            },
+            {
+                "name": "smtp_server_port",
+                "shortdesc": "TCP/UDP port to use for connection with SMTP server",
+                "longdesc": null,
+                "type": "integer",
+                "default": "25",
+                "enum_values": null,
+                "required": true,
+                "advanced": false,
+                "deprecated": false,
+                "deprecated_by": [],
+                "deprecated_desc": null,
+                "unique_group": null,
+                "reloadable": false
+            },
+            {
+                "name": "smtp_auth_username",
+                "shortdesc": "Email account username",
+                "longdesc": null,
+                "type": "string",
+                "default": null,
+                "enum_values": null,
+                "required": true,
+                "advanced": false,
+                "deprecated": false,
+                "deprecated_by": [],
+                "deprecated_desc": null,
+                "unique_group": null,
+                "reloadable": false
+            },
+            {
+                "name": "smtp_auth_password",
+                "shortdesc": "Email account password or passphrase",
+                "longdesc": null,
+                "type": "string",
+                "default": null,
+                "enum_values": null,
+                "required": true,
+                "advanced": false,
+                "deprecated": false,
+                "deprecated_by": [],
+                "deprecated_desc": null,
+                "unique_group": null,
+                "reloadable": false
+            }
+        ],
+        "actions": [
+            {
+                "name": "monitor",
+                "timeout": null,
+                "interval": null,
+                "role": null,
+                "start-delay": null,
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false
+            },
+            {
+                "name": "stop",
+                "timeout": "20s",
+                "interval": null,
+                "role": null,
+                "start-delay": null,
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false
+            },
+            {
+                "name": "start",
+                "timeout": "20s",
+                "interval": null,
+                "role": null,
+                "start-delay": null,
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false
+            }
+        ],
+        "name": "alert:alert_smtp",
+        "standard": "alert",
+        "provider": null,
+        "type": "alert_smtp",
+        "default_actions": [
+            {
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false,
+                "name": "monitor",
+                "interval": "60s",
+                "timeout": null,
+                "role": null,
+                "start-delay": null
+            }
+        ]
+    }
+}

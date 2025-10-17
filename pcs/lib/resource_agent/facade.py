@@ -31,6 +31,7 @@ from .types import (
     ResourceAgentParameter,
 )
 from .xml import (
+    load_alert_agent_metadata,
     load_fake_agent_metadata,
     load_metadata,
     parse_metadata,
@@ -173,6 +174,8 @@ class ResourceAgentFacade:
 
     @property
     def _validator_option_type(self) -> str:
+        if self.metadata.name.is_alert:
+            return "alert"
         return "stonith" if self.metadata.name.is_stonith else "resource"
 
     def _get_all_params_deprecated_by(self) -> Dict[str, Set[str]]:
@@ -234,10 +237,17 @@ class ResourceAgentFacadeFactory:
     ) -> ResourceAgentFacade:
         return ResourceAgentFacade(self._get_fake_agent_metadata(daemon_name))
 
+    def facade_from_alert_agent_name(
+        self, agent_name: FakeAgentName
+    ) -> ResourceAgentFacade:
+        return ResourceAgentFacade(self._get_alert_agent_metadata(agent_name))
+
     def _facade_from_metadata(
         self, metadata: ResourceAgentMetadata
     ) -> ResourceAgentFacade:
         additional_parameters = []
+        if metadata.name.is_alert:
+            return ResourceAgentFacade(metadata, additional_parameters)
         if metadata.name.is_stonith:
             additional_parameters += self._get_fenced_parameters()
         if metadata.name.standard == "ocf" and metadata.name.provider in (
@@ -256,6 +266,16 @@ class ResourceAgentFacadeFactory:
             parse_metadata(
                 ResourceAgentName(const.FAKE_AGENT_STANDARD, None, agent_name),
                 load_fake_agent_metadata(self._runner, agent_name),
+            )
+        )
+
+    def _get_alert_agent_metadata(
+        self, agent_name: FakeAgentName
+    ) -> ResourceAgentMetadata:
+        return ocf_version_to_ocf_unified(
+            parse_metadata(
+                ResourceAgentName("alert", None, agent_name),
+                load_alert_agent_metadata(agent_name),
             )
         )
 

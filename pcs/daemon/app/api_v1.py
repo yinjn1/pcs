@@ -54,6 +54,8 @@ API_V1_MAP: Mapping[str, str] = {
     "alert-add-recipient/v1": "alert.add_recipient",
     "alert-update-recipient/v1": "alert.update_recipient",
     "alert-remove-recipient/v1": "alert.remove_recipient",
+    "alert-agent-describe-agent/v1": "alert_agent.describe_agent",
+    "alert-agent-list-agents/v1": "alert_agent.list_agents",
     "cluster-add-nodes/v1": "cluster.add_nodes",
     "cluster-node-clear/v1": "cluster.node_clear",
     "cluster-remove-nodes/v1": "cluster.remove_nodes",

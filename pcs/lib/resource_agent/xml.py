@@ -343,3 +343,34 @@ def _get_text_from_dom_element(element: Optional[_Element]) -> Optional[str]:
         if element is None or element.text is None
         else str(element.text).strip()
     )
+
+
+def _load_alert_agent_metadata_xml(agent_name: FakeAgentName) -> str:
+    """
+    Return alert agent metadata string
+
+    agent_name -- name of alert agent whose metadata we want to get
+    """
+    if agent_name not in const.ALERT_AGENT_METADATA:
+        raise UnableToGetAgentMetadata(agent_name, "Unknown agent")
+    metadata = const.ALERT_AGENT_METADATA[agent_name]
+    if not metadata:
+        raise UnableToGetAgentMetadata(
+            agent_name,
+            f"Alert agent '{agent_name}' metadata is empty or not available",
+        )
+    return metadata
+
+
+def load_alert_agent_metadata(agent_name: FakeAgentName) -> _Element:
+    """
+    Return alert agent metadata as an XML document
+
+    agent_name -- name of alert agent whose metadata we want to get
+    """
+    try:
+        return _metadata_xml_to_dom(
+            _load_alert_agent_metadata_xml(agent_name)
+        )
+    except (etree.XMLSyntaxError, etree.DocumentInvalid) as e:
+        raise UnableToGetAgentMetadata(agent_name, str(e)) from e

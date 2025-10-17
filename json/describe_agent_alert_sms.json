@@ -1,0 +1,58 @@
+{
+    "status": "success",
+    "status_msg": null,
+    "report_list": [],
+    "data": {
+        "shortdesc": "Alert agent for SMS",
+        "longdesc": "alert_sms is an alert agent which can be used to send SMS notifications. This agent calls support software to send SMS messages.",
+        "parameters": [],
+        "actions": [
+            {
+                "name": "monitor",
+                "timeout": null,
+                "interval": null,
+                "role": null,
+                "start-delay": null,
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false
+            },
+            {
+                "name": "stop",
+                "timeout": "20s",
+                "interval": null,
+                "role": null,
+                "start-delay": null,
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false
+            },
+            {
+                "name": "start",
+                "timeout": "20s",
+                "interval": null,
+                "role": null,
+                "start-delay": null,
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false
+            }
+        ],
+        "name": "alert:alert_sms",
+        "standard": "alert",
+        "provider": null,
+        "type": "alert_sms",
+        "default_actions": [
+            {
+                "OCF_CHECK_LEVEL": null,
+                "automatic": false,
+                "on_target": false,
+                "name": "monitor",
+                "interval": "60s",
+                "timeout": null,
+                "role": null,
+                "start-delay": null
+            }
+        ]
+    }
+}

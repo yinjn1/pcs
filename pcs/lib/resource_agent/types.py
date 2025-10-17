@@ -42,6 +42,10 @@ class ResourceAgentName:
     def is_ocf(self) -> bool:
         return self.standard == "ocf"
 
+    @property
+    def is_alert(self) -> bool:
+        return self.standard == "alert"
+
     def to_dto(self) -> ResourceAgentNameDto:
         return ResourceAgentNameDto(
             standard=self.standard,

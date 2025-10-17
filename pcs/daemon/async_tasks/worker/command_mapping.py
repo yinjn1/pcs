@@ -9,6 +9,7 @@ from pcs.lib.commands import (  # services,
     acl,
     alert,
     booth,
+    alert_agent,
     cib,
     cib_options,
     cluster,
@@ -112,6 +113,14 @@ COMMAND_MAP: Mapping[str, _Cmd] = {
     "alert.update_recipient": _Cmd(
         cmd=alert.update_recipient,
         required_permission=p.WRITE,
+    ),
+    "alert_agent.describe_agent": _Cmd(
+        cmd=alert_agent.describe_agent,
+        required_permission=p.READ,
+    ),
+    "alert_agent.list_agents": _Cmd(
+        cmd=alert_agent.list_agents,
+        required_permission=p.READ,
     ),
     "booth.ticket_cleanup": _Cmd(
         cmd=booth.ticket_cleanup,
