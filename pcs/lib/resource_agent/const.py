@@ -19,53 +19,73 @@ PACEMAKER_SCHEDULERD = FakeAgentName("pacemaker-schedulerd")
 STONITH_ACTION_REPLACED_BY = ["pcmk_off_action", "pcmk_reboot_action"]
 DEFAULT_UNIQUE_GROUP_PREFIX = const.DEFAULT_UNIQUE_GROUP_PREFIX
 
-ALERT_AGENT_SMS = FakeAgentName("alert_sms")
-ALERT_AGENT_SMS_METADATA = """<?xml version="1.0"?>
-<resource-agent name="alert_sms" version="1.0">
-  <version>1.0</version>
-  <shortdesc lang="en">Alert agent for SMS</shortdesc>
-  <longdesc lang="en">alert_sms is an alert agent which can be used to send SMS notifications. This agent calls support software to send SMS messages.</longdesc>
+# Alert agent instances
+SMS_AGENT = FakeAgentName("alert-sms")
+SMS_AGENT_METADATA = """<?xml version="1.0" encoding="utf-8"?>
+<resource-agent name="alert-sms" version="1.0.0-beta">
+  <version>1.1</version>
+  <longdesc lang="en">
+    This resource agent manages the alert-sms service, which sends SMS notifications.
+  </longdesc>
+  <shortdesc lang="en">SMS notification service manager</shortdesc>
   <parameters>
+    <parameter name="enabled">
+      <shortdesc lang="en">Enable or disable the SMS alert agent</shortdesc>
+      <content type="boolean" default="1" />
+    </parameter>
   </parameters>
   <actions>
+    <action name="start" timeout="20" />
+    <action name="stop" timeout="20" />
+    <action name="meta-data" timeout="5" />
+    <action name="monitor" depth="0" timeout="20" interval="10" />
   </actions>
-</resource-agent>"""
+</resource-agent>"""  # noqa: E501
 
-ALERT_AGENT_SMTP = FakeAgentName("alert_smtp")
-ALERT_AGENT_SMTP_METADATA = """<?xml version="1.0"?>
-<resource-agent name="alert_smtp" version="1.0">
-  <version>1.0</version>
-  <shortdesc lang="en">Alert agent for SMTP</shortdesc>
-  <longdesc lang="en">alert_smtp is an alert agent which can be used to send email notifications via SMTP. This agent calls support software to send email messages.</longdesc>
+SMTP_AGENT = FakeAgentName("alert-smtp")
+SMTP_AGENT_METADATA = """<?xml version="1.0" encoding="utf-8"?>
+<resource-agent name="alert-smtp" version="1.0.0-beta">
+  <version>1.1</version>
+  <longdesc lang="en">
+    This resource agent manages the alert-smtp service, which sends email notifications.
+  </longdesc>
+  <shortdesc lang="en">Email notification service manager</shortdesc>
   <parameters>
-    <parameter name="smtp_server_host" required="1">
-      <shortdesc lang="en">IP address or hostname of SMTP server</shortdesc>
+    <parameter name="enabled">
+      <shortdesc lang="en">Enable or disable the SMTP alert agent</shortdesc>
+      <content type="boolean" default="1" />
+    </parameter>
+    <parameter name="hostname" required="1">
+      <shortdesc lang="en">The SMTP server that handles the sending of your emails</shortdesc>
       <content type="string" />
     </parameter>
-    <parameter name="smtp_server_port" required="1">
-      <shortdesc lang="en">TCP/UDP port to use for connection with SMTP server</shortdesc>
-      <content type="port" default="25" />
+    <parameter name="port" required="1">
+      <shortdesc lang="en">Port number</shortdesc>
+      <content type="integer" default="25" />
     </parameter>
-    <parameter name="smtp_auth_username" required="1">
+    <parameter name="username" required="1">
       <shortdesc lang="en">Email account username</shortdesc>
       <content type="string" />
     </parameter>
-    <parameter name="smtp_auth_password" required="1">
+    <parameter name="password" required="1">
       <shortdesc lang="en">Email account password or passphrase</shortdesc>
       <content type="string" />
     </parameter>
   </parameters>
   <actions>
+    <action name="start" timeout="20" />
+    <action name="stop" timeout="20" />
+    <action name="meta-data" timeout="5" />
+    <action name="monitor" depth="0" timeout="20" interval="10" />
   </actions>
-</resource-agent>"""
+</resource-agent>"""  # noqa: E501
 
-# list_resource_agents
-ALERT_AGENT = [
-    ALERT_AGENT_SMS,
-    ALERT_AGENT_SMTP,
-]
-
-ALERT_AGENT_METADATA = {
-    ALERT_AGENT_SMS: ALERT_AGENT_SMS_METADATA,
-    ALERT_AGENT_SMTP: ALERT_AGENT_SMTP_METADATA,
+# Alert agent configuration registry
+_ALERT_AGENT_CONFIG = {
+    SMS_AGENT: SMS_AGENT_METADATA,
+    SMTP_AGENT: SMTP_AGENT_METADATA,
 }
+
+# Public API - list_resource_agents
+ALERT_AGENT = list(_ALERT_AGENT_CONFIG.keys())
+ALERT_AGENT_METADATA = _ALERT_AGENT_CONFIG
